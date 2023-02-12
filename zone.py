@@ -1,5 +1,5 @@
 def zoning(borders):
-    borders = [] #2d array for all charaters
+    borders = [] #2d array for all charater's boundary box dimensions 
     zones = [] #array of zone results
 
     baseline = borders[0][1] + borders[0][3] #baseline of first character - assuming that the first character in the sentence is gong to be a capital letter
