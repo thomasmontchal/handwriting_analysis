@@ -45,6 +45,8 @@ def margin(textBoundary,img):
 
     # showing the image with border
     cv.imwrite('output.png', borderoutput)
-    cv.imshow("Display window", borderoutput)
-    cv.waitKey(0)
-    cv.destroyAllWindows()
+    #cv.imshow("Display window", borderoutput)
+    #cv.waitKey(0)
+    #cv.destroyAllWindows()
+
+    return margin
