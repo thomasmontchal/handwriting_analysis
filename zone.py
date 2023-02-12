@@ -1,9 +1,28 @@
-def zoning(borders):
+import cv2
+
+
+def zoning(anImg):
     borders = [] #2d array for all charater's boundary box dimensions 
     #zones = [] #array of zone results
     upperZoneCount = 0
     bottomZoneCount = 0
     middleZoneCOunt = 0
+
+    img = cv2.imread(anImg)
+    #img = cv2.imread('threshold1.jpg')
+    # convert the image to grayscale
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    # apply thresholding on the gray image to create a binary image
+    ret,thresh = cv2.threshold(gray,127,255,0)
+
+    # find the contours
+    contours, _ = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_NONE)
+
+    for contour in contours:
+        x,y,w,h = cv2.boundingRect(contour)
+        box = tuple((x,y,w,h))
+        borders.append(box)
 
     baseline = borders[0][1] + borders[0][3] #baseline of first character - assuming that the first character in the sentence is gong to be a capital letter
     topZoneLine = (borders[0][3]+borders[0][1])/2 #centerline of first charracter used as line to jusge zones

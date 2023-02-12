@@ -4,7 +4,8 @@ from PIL import Image, ImageTk
 from pressure_code import*
 from baseline_code import*
 from slant_aligment_code import*
-
+from zone import *
+from margins import *
 class App(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
@@ -31,7 +32,7 @@ class StartPage(tk.Frame):
         frameInside = tk.Frame(self)
         frameInside.pack(side="left",fill="y",expand=True)
         #load logo
-        logo = Image.open("logo-placeholder.png")
+        logo = Image.open("logo.png")
         logo = logo.resize((100, 100), Image.ANTIALIAS)
         logo = ImageTk.PhotoImage(logo)
         #make logo widget and assign it to frame1/container 1
@@ -101,16 +102,16 @@ class PageOne(tk.Frame):
                 self.label_SlantAllignmentDescription =  tk.Label(self, text=f"Ever wonder how in tune a person might be with their emotions? A persons slant allignment is often associated with this characteristic and creativity. The more right the slant per letter the likelier the person is emotional.\n It was found that your hand writing overall is: {slantAllignmentResults}", font=('Verdana', 12))
                 self.label_SlantAllignmentDescription.pack()
                 #margins Evaluation goes here
-                marginsEvaluation = None
+                #marginsEvaluation = margin(self.filename)
                 self.label_Margins = tk.Label(self,text = "Margins",font =('Verdana',18))
                 self.label_Margins.pack()
-                self.label_MarginsDescription = tk.Label(self,text=f'What side of the paper do you write on? Depending on the persons outlook on life this might change. The main allignments are left side, right side, or middle.\n Your handwriting is {marginsEvaluation} alligned', font=('Verdana', 12))
+                self.label_MarginsDescription = tk.Label(self,text=f'What side of the paper do you write on? Depending on the persons outlook on life this might change. The main allignments are left side, right side, or middle.\n Your handwriting is center alligned', font=('Verdana', 12))
                 self.label_MarginsDescription.pack()
                 #zones Evaluation goes here
-                zoneEvaluation = None
+                zoneEvaluation = zoning(self.filename)
                 self.label_Zones = tk.Label(self,text = "Zones",font =('Verdana',18))
                 self.label_Zones.pack()
-                self.label_ZonesDescription = tk.Label(self,text=f'Zones refers to the vertical margins of your hand writing. Some letters should either be in the upper zone like(t,l,h), in the middle zone (a,c,i,o), or the lower zone (f,g,y,p). The deviation of some letters from these zones may imply that the person likes to stand out.\n On average your writing {marginsEvaluation} alligned', font=('Verdana', 12))
+                self.label_ZonesDescription = tk.Label(self,text=f'Zones refers to the vertical margins of your hand writing. Some letters should either be in the upper zone like(t,l,h), in the middle zone (a,c,i,o), or the lower zone (f,g,y,p). The deviation of some letters from these zones may imply that the person likes to stand out.\n On average your writing {zoneEvaluation} alligned(upper, bottom, middle)', font=('Verdana', 12))
                 self.label_ZonesDescription.pack()
 
 
@@ -145,7 +146,11 @@ class PageOne(tk.Frame):
         
         button = tk.Button(self, text="Upload Image", command=open_file_dialog)
         button.pack()
+        # frameInside = tk.Frame(self)
+        # scrollbar = tk.Scrollbar(frameInside)
         
+        # frameInside.pack()
+        # scrollbar.pack()
         
         button = tk.Button(self, text="Back to Start Page",
                            command=lambda: (controller.show_frame(StartPage), clear_image()))

@@ -1,11 +1,25 @@
 # importing required packages
 import cv2 as cv
 #margin function with cv.imread parameters and the boundary box dimensiosn for all the text 
-def margin(textBoundary,img):
+def margin(animg):
+
+
     # reading the image
     #img = cv.imread(cv.samples.findFile("wics.png"))
-    virat_img = cv.imread('handwriting_testImage.png',0)
-    h, w, _ = img.shape  #gets the size of the image
+    # virat_img = cv.imread(img,0)
+    # h, w = virat_img.shape  #gets the size of the image
+    img = cv.imread(animg)
+    img = cv.imread('threshold1.jpg')
+    # convert the image to grayscale
+    gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+
+    # apply thresholding on the gray image to create a binary image
+    ret,thresh = cv.threshold(gray,127,255,0)
+
+    # find the contours
+    contours, _ = cv.findContours(thresh,cv.RETR_TREE,cv.CHAIN_APPROX_NONE)
+    x,y,w,h = cv.boundingRect(contours[1]) 
+    textBoundary = tuple((x,y,w,h)) 
     margin = ""
 
     #image border
